@@ -1,6 +1,8 @@
 package array_diff_test
 
 import (
+	"testing"
+
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
@@ -19,3 +21,8 @@ var _ = Describe("Sample tests", func() {
 		Expect(ArrayDiff([]int{0, 1, 2, 8, 3}, []int{3, 4, 8})).To(Equal([]int{0, 1, 2}))
 	})
 })
+
+func TestArrayDiff(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "ArrayDiff Suite")
+}
