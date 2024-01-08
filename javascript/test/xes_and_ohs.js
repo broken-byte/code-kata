@@ -1,5 +1,5 @@
-const  { XO } = require("../xes_and_oes/solution.js");
-const { assert } = require("chai");
+import { XO } from "../xes_and_oes/solution.js";
+import { assert } from "chai";
 
 describe("XO Solution function", () => {
   it(

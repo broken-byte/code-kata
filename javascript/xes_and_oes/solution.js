@@ -8,10 +8,8 @@
  * @returns {boolean} - Returns true if the number of 'X's is 
  *  equal to the number of 'O's, otherwise returns false.
  */
-function XO(str) {
+export const XO = (str) => {
   const xCount = (str.match(/x/gi) || []).length;
   const oCount = (str.match(/o/gi) || []).length;
   return xCount === oCount;
-}
-
-module.exports = { XO };
+};
