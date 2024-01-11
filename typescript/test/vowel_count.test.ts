@@ -1,4 +1,4 @@
-import { Kata } from "../vowel_count/solution";
+import { Kata } from "../src/vowel_count/solution";
 import { assert } from "chai";
 
 describe("getCount", function () {

@@ -1,6 +1,6 @@
 import { assert } from "chai";
 
-import { likes } from "../who_likes_it/solution";
+import { likes } from "../src/who_likes_it/solution";
 
 describe('static tests', function() {
   it('should return correct text', function() {
