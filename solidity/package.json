@@ -1,0 +1,15 @@
+{
+  "name": "solidity",
+  "version": "1.0.0",
+  "description": "Code kata dir for my solidity katas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "broken-byte",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.4"
+  }
+}
