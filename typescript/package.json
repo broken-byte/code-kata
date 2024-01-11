@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -r ts-node/register 'test/**/*.test.ts'"
+    "test": "mocha -r ts-node/register 'test/**/*.test.ts'",
+    "test_single": "mocha -r ts-node/register"
   },
   "author": "broken-byte",
   "license": "ISC",
