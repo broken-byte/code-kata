@@ -1,4 +1,4 @@
-import { XO } from "../xes_and_oes/solution.js";
+import { XO } from "../src/xes_and_oes/solution.js";
 import { assert } from "chai";
 
 describe("XO Solution function", () => {

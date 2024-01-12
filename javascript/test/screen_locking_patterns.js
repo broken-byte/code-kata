@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { countPatternsFrom } from "../screen_locking_patterns/solution.js";
+import { countPatternsFrom } from "../src/screen_locking_patterns/solution.js";
 
 describe("countPatterns Tests", () => {
   it("should count patterns for length 0, less than 0, or more than 9 as 0", () => {

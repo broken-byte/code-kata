@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { solution } from "../multiples_of_3_or_5/solution.js";
+import { solution } from "../src/multiples_of_3_or_5/solution.js";
 
 
 const test = (n, expected) => {

@@ -1,5 +1,5 @@
 import chai from "chai";
-import { friend } from "../friend_or_foe/solution.js";
+import { friend } from "../src/friend_or_foe/solution.js";
 const { assert } = chai;
 chai.config.truncateThreshold = 0;
 
