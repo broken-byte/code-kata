@@ -18,6 +18,7 @@ This repo is also a testing ground to experiment with new languages.
     <th>Rust</th>
     <th>Go</th>
     <th>Solidity</th>
+    <th>Swift</th>
   </tr>
   <tr>
     <td><img src="readme_assets/ts.png" alt="Typescript" width="100" height="100"/></td>
@@ -26,5 +27,6 @@ This repo is also a testing ground to experiment with new languages.
     <td><img src="readme_assets/rust.svg" alt="Rust" width="100" height="100"/></td>
     <td><img src="readme_assets/go.svg" alt="Go" width="100" height="100"/></td>
     <td><img src="readme_assets/solidity.svg" alt="Solidity" width="100" height="100"/></td>
+     <td><img src="readme_assets/swift.svg" alt="Swift" width="100" height="100"/></td>
   </tr>
 </table>
