@@ -1,5 +1,7 @@
 # Code Katas
 
+<img src="readme_assets/codewars.svg" alt="Code wars logo" width="100" height="100"/>
+
 ## Description
 
 This repo contains all my daily code challenges that I do as part of my coding practice on [Code Wars](https://www.codewars.com/).
