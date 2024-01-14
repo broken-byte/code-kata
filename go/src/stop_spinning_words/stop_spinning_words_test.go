@@ -6,7 +6,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	. "github.com/broken-byte/code-kata/stop_spinning_words"
+	. "github.com/broken-byte/code-kata/src/stop_spinning_words"
 )
 
 var _ = Describe("Test Sample", func() {

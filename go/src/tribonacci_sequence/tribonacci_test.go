@@ -3,7 +3,7 @@ package tribonacci_test
 import (
 	"testing"
 
-	. "github.com/broken-byte/code-kata/tribonacci_sequence"
+	. "github.com/broken-byte/code-kata/src/tribonacci_sequence"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

@@ -6,7 +6,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	. "github.com/broken-byte/code-kata/array_diff"
+	. "github.com/broken-byte/code-kata/src/array_diff"
 )
 
 var _ = Describe("Sample tests", func() {
