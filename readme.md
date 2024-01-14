@@ -1,6 +1,6 @@
-# Code Katas
+# Code Kata Training Grounds <img src="readme_assets/codewars.svg" alt="Code wars logo" width="30" height="30"/>
 
-<img src="readme_assets/codewars.svg" alt="Code wars logo" width="100" height="100"/>
+<img src="readme_assets/kata_dev.png" alt="Code wars logo" width="530" height="530"/>
 
 ## Description
 
