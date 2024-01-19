@@ -51,7 +51,7 @@ func waveV2(_ y: String) -> [String] {
     if item == " " { continue }
 
     var word = array
-    word[index] = item.capitalized
+    word[index] = item.uppercased()
     result.append(word.joined())
   }
 
