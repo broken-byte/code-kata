@@ -27,5 +27,11 @@ let package = Package(
       name: "StreetFighterCharacterSelectionTests",
       dependencies: ["StreetFighterCharacterSelection"]
     ),
+
+    .executableTarget(name: "AreTheyTheSame"),
+    .testTarget(
+      name: "AreTheyTheSameTests",
+      dependencies: ["AreTheyTheSame"]
+    ),
   ]
 )
