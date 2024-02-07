@@ -8,7 +8,7 @@ class SolutionTest: XCTestCase {
   ]
 
   func testing(_ a: [Int], _ b: [Int], _ expected: Bool) {
-    XCTAssertTrue(comp(a, b) == expected, "should return \(expected)")
+    XCTAssertTrue(comp(a, b) == expected, "\(a) and \(b) should return \(expected)")
   }
 
   func testExample() {

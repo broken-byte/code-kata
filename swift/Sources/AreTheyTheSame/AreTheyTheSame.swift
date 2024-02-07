@@ -1,27 +1,25 @@
-/// Compares two arrays of integers and determines if they are the same when squared.
+/// Compares two arrays of integers and determines if they are the same
+/// when the elements in the first are squared, regardless of order.
 ///
 /// - Parameters:
 ///   - a: The first array of integers.
 ///   - b: The second array of integers.
 /// - Returns: `true` if the arrays are the same when squared, `false` otherwise.
 func comp(_ a: [Int], _ b: [Int]) -> Bool {
-  if a.count == 0 || b.count == 0 {
-    return false
+  if a.count == 0 && b.count == 0 {
+    return true
   }
 
   if a.count != b.count {
     return false
   }
 
-  if a.count == 0 && b.count == 0 {
-    return true
-  }
-
   var bCount = createCountMap(b)
   for num in a {
-    if let squareCount = bCount[num ^ 2] {
+    let square = num * num
+    if let squareCount = bCount[square] {
       if squareCount == 0 { return false }
-      bCount[num ^ 2]! -= 1
+      bCount[square]! -= 1
 
     } else {
       return false
@@ -31,7 +29,7 @@ func comp(_ a: [Int], _ b: [Int]) -> Bool {
   return true
 }
 
-func createCountMap(_ arr: [Int]) -> [Int: Int] {
+private func createCountMap(_ arr: [Int]) -> [Int: Int] {
   var countMap: [Int: Int] = [:]
   for num in arr {
     if let _ = countMap[num] {
