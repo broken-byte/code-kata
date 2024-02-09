@@ -33,5 +33,11 @@ let package = Package(
       name: "AreTheyTheSameTests",
       dependencies: ["AreTheyTheSame"]
     ),
+
+    .executableTarget(name: "CalculateStringRotation"),
+    .testTarget(
+      name: "CalculateStringRotationTests",
+      dependencies: ["CalculateStringRotation"]
+    ),
   ]
 )
