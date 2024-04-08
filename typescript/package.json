@@ -10,7 +10,7 @@
   "author": "broken-byte",
   "license": "ISC",
   "devDependencies": {
-    "@types/chai": "^4.3.11",
+    "@types/chai": "^4.3.14",
     "@types/mocha": "^10.0.6",
     "chai": "^4.3.10",
     "mocha": "^10.2.0",
