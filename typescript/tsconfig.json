@@ -107,6 +107,6 @@
     "skipLibCheck": true,                               /* Skip type checking all .d.ts files. */
 
     "typeRoots": ["node_modules/@types"],
-    "types": ["chai", "mocha", "ts-node"],
+    "types": ["chai", "mocha"],
   }
 }
