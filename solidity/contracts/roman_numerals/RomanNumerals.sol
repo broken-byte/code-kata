@@ -17,8 +17,7 @@ contract RomanNumerals {
     * Time complexity: O(13) -> O(1)
     * Space complexity: O(13) -> O(1)
     */
-  function solution(uint n) 
-    public pure returns (string memory) {
+  function solution(uint n) public pure returns (string memory) {
     string[13] memory symbols = [
       "I", 
       "IV", 
