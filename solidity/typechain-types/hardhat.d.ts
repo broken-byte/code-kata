@@ -17,23 +17,41 @@ declare module "hardhat/types/runtime" {
       name: "RomanNumerals",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.RomanNumerals__factory>;
+    getContractFactory(
+      name: "TicTacToeChecker",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TicTacToeChecker__factory>;
 
     getContractAt(
       name: "RomanNumerals",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.RomanNumerals>;
+    getContractAt(
+      name: "TicTacToeChecker",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TicTacToeChecker>;
 
     deployContract(
       name: "RomanNumerals",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.RomanNumerals>;
+    deployContract(
+      name: "TicTacToeChecker",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.TicTacToeChecker>;
 
     deployContract(
       name: "RomanNumerals",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.RomanNumerals>;
+    deployContract(
+      name: "TicTacToeChecker",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.TicTacToeChecker>;
 
     // default types
     getContractFactory(
