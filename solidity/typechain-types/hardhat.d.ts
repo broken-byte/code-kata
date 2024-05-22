@@ -14,6 +14,14 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "GiftCoin",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.GiftCoin__factory>;
+    getContractFactory(
+      name: "RockPaperScissors",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.RockPaperScissors__factory>;
+    getContractFactory(
       name: "RomanNumerals",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.RomanNumerals__factory>;
@@ -23,6 +31,16 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.TicTacToeChecker__factory>;
 
     getContractAt(
+      name: "GiftCoin",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.GiftCoin>;
+    getContractAt(
+      name: "RockPaperScissors",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.RockPaperScissors>;
+    getContractAt(
       name: "RomanNumerals",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -34,6 +52,14 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.TicTacToeChecker>;
 
     deployContract(
+      name: "GiftCoin",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GiftCoin>;
+    deployContract(
+      name: "RockPaperScissors",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.RockPaperScissors>;
+    deployContract(
       name: "RomanNumerals",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.RomanNumerals>;
@@ -42,6 +68,16 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.TicTacToeChecker>;
 
+    deployContract(
+      name: "GiftCoin",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GiftCoin>;
+    deployContract(
+      name: "RockPaperScissors",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.RockPaperScissors>;
     deployContract(
       name: "RomanNumerals",
       args: any[],
