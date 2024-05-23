@@ -113,6 +113,14 @@ describe('RockPaperScissors', function() {
       await expect(contract.createGame(creatorAddress, { value: bet }))
        .to.be.revertedWith("Cannot create a game with yourself as the participant");
     });
+
+    it("should not let us create a game when no bet is placed", async function() {
+      const { accounts, contract } = await loadFixture(deployRockPaperScissorsFixture);
+      const participantAddress: string = await accounts[1].getAddress();
+
+      await expect(contract.createGame(participantAddress, { value: 0 }))
+       .to.be.revertedWith("No bet placed");
+    });
   });
 
   describe('joinGame', function() {
@@ -133,6 +141,26 @@ describe('RockPaperScissors', function() {
         .to.include(creatorAddress, "Expected the first player to be included");
       expect(gameStartedEvent.players)
         .to.include(participantAddress, "Expected the second player to be included");
+    });
+
+    it("should subtract the bet amount from the participant's balance", async function() {
+      const { accounts, contract } = await loadFixture(deployRockPaperScissorsFixture);
+      const bet: bigint = ethers.parseEther("1");
+      const creatorAddress: string = await accounts[0].getAddress();
+      const participantAddress: string = await accounts[1].getAddress();
+      await contract.createGame(participantAddress, { value: bet });
+      const gameCreatedEvent = await getFirstGameCreatedEvent(contract);
+
+      const balanceBefore: bigint = await ethers.provider.getBalance(participantAddress);
+      const tx = await contract.connect(accounts[1]).joinGame(gameCreatedEvent.gameNumber, { value: bet });
+      const txCost = await getTransactionCost(tx);
+      const balanceAfter: bigint = await ethers.provider.getBalance(participantAddress);
+
+      expect(balanceAfter)
+        .to.equal(
+          balanceBefore - bet - txCost, 
+          "Expected the participant's balance to be reduced by the bet amount (and the transaction cost)"
+        );
     });
 
     it ("should not let us join a game with a nonvalid address", async function() {
@@ -167,6 +195,19 @@ describe('RockPaperScissors', function() {
       await expect(
         contract.connect(accounts[1]).joinGame(0, { value: bet })
       ).to.be.revertedWith("Game does not exist");
+    });
+
+    it("should not let us join a game that has already started", async function() {
+      const { accounts, contract } = await loadFixture(deployRockPaperScissorsFixture);
+      const bet: bigint = ethers.parseEther("1");
+      const participantAddress: string = await accounts[1].getAddress();
+      await contract.createGame(participantAddress, { value: bet });
+      const gameCreatedEvent = await getFirstGameCreatedEvent(contract);
+      await contract.connect(accounts[1]).joinGame(gameCreatedEvent.gameNumber, { value: bet });
+
+      await expect(
+        contract.connect(accounts[1]).joinGame(gameCreatedEvent.gameNumber, { value: bet })
+      ).to.be.revertedWith("Game has already started");
     });
   });
 
@@ -245,6 +286,72 @@ describe('RockPaperScissors', function() {
 
       await expect(contract.connect(accounts[1]).makeMove(gameCreatedEvent.gameNumber, 1))
        .to.be.revertedWith("Game has not started yet");
+    });
+
+    it("should not let us make a zero move (invalid move)", async function() {
+      const { accounts, contract } = await loadFixture(deployRockPaperScissorsFixture);
+      const bet: bigint = ethers.parseEther("1");
+      const participantAddress: string = await accounts[1].getAddress();
+      await contract.createGame(participantAddress, { value: bet });
+      const gameCreatedEvent = await getFirstGameCreatedEvent(contract);
+      await contract.connect(accounts[1]).joinGame(gameCreatedEvent.gameNumber, { value: bet });
+
+      await expect(contract.connect(accounts[0]).makeMove(gameCreatedEvent.gameNumber, 0))
+       .to.be.revertedWith("Invalid move");
+    });
+
+    it("should not let us make an invalid move (greater than 3)", async function() {
+      const { accounts, contract } = await loadFixture(deployRockPaperScissorsFixture);
+      const bet: bigint = ethers.parseEther("1");
+      const participantAddress: string = await accounts[1].getAddress();
+      await contract.createGame(participantAddress, { value: bet });
+      const gameCreatedEvent = await getFirstGameCreatedEvent(contract);
+      await contract.connect(accounts[1]).joinGame(gameCreatedEvent.gameNumber, { value: bet });
+
+      await expect(contract.connect(accounts[0]).makeMove(gameCreatedEvent.gameNumber, 4))
+       .to.be.revertedWith("Invalid move");
+    });
+    it("should refund the bet amount to each player if the game is a draw", async function() {
+      const { accounts, contract } = await loadFixture(deployRockPaperScissorsFixture);
+      const bet: bigint = ethers.parseEther("1");
+      const creatorAddress: string = await accounts[0].getAddress();
+      const participantAddress: string = await accounts[1].getAddress();
+
+      // Balance before
+      const creatorBalanceBefore: bigint = await ethers.provider.getBalance(creatorAddress);
+      const participantBalanceBefore: bigint = await ethers.provider.getBalance(participantAddress);
+
+      // First Transaction: Create Game
+      const creationTX = await contract.createGame(participantAddress, { value: bet });
+      const creationTxCostOnCreator = await getTransactionCost(creationTX);
+      const gameCreatedEvent = await getFirstGameCreatedEvent(contract);
+
+      // Second Transaction: Join Game
+      const joinGameTx = await contract.connect(accounts[1]).joinGame(gameCreatedEvent.gameNumber, { value: bet });
+      const joinGameTxCostOnParticipant = await getTransactionCost(joinGameTx);
+    
+      // Third Transaction: Make Move
+      const makeMoveTxFromCreator = 
+        await contract.connect(accounts[0]).makeMove(gameCreatedEvent.gameNumber, 1); // rock
+      const makeMoveTxFromParticipant = 
+        await contract.connect(accounts[1]).makeMove(gameCreatedEvent.gameNumber, 1); // rock
+      const makeMoveTxCostOnCreator = await getTransactionCost(makeMoveTxFromCreator);
+      const makeMoveTxCostOnParticipant = await getTransactionCost(makeMoveTxFromParticipant);
+
+      // Balance after
+      const creatorBalanceAfter: bigint = await ethers.provider.getBalance(creatorAddress);
+      const participantBalanceAfter: bigint = await ethers.provider.getBalance(participantAddress);
+      const gameCompleteEvent = await getFirstGameCompleteEvent(contract);
+
+      // Assertions
+      expect(creatorBalanceAfter).to.equal(
+        creatorBalanceBefore - creationTxCostOnCreator - makeMoveTxCostOnCreator,
+        "Expected the creator's balance to be the same as before, i.e., with bet amount refunded (minus transaction costs)"
+      );
+      expect(participantBalanceAfter).to.equal(
+        participantBalanceBefore - joinGameTxCostOnParticipant - makeMoveTxCostOnParticipant,
+        "Expected the participant's balance to be the same as before, i.e., with bet amount refunded (minus transaction costs)"
+      );
     });
   });
 });

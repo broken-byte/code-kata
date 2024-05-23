@@ -60,23 +60,25 @@ contract RockPaperScissors {
     uint bet = msg.value;
     uint gameNumber = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, participant)));
 
+    require(bet > 0, "No bet placed");
     require(msg.sender != participant, "Cannot create a game with yourself as the participant");
     require(
       participant != address(0),
       "Participant address is required/participant cannot be zero address"
     );
 
-    games[gameNumber] = Game(
-      msg.sender,
-      participant,
-      false,
-      address(0),
-      bet,
-      gameNumber,
-      Move.DEFAULT,
-      Move.DEFAULT,
-      false
-    );
+    games[gameNumber] = Game({
+      creator: msg.sender,
+      participant: participant,
+      participantDidJoin: false,
+      winner: address(0),
+      bet: bet,
+      gameNumber: gameNumber,
+      creatorMove: Move.DEFAULT,
+      participantMove: Move.DEFAULT,
+      gameOver: false
+    });
+
     emit GameCreated(msg.sender, gameNumber, bet);
   }
 
@@ -91,6 +93,7 @@ contract RockPaperScissors {
     Game storage game = games[gameNumber];
 
     require(game.participant == msg.sender, "Sender is not whitelisted as participant");
+    require(!game.participantDidJoin, "Game has already started");
     require(msg.value >= game.bet, "Bet amount is too low");
 
     if (msg.value > game.bet) {
@@ -113,6 +116,7 @@ contract RockPaperScissors {
   ) external gameExists(gameNumber) senderIsParticipantOrCreator(gameNumber) {
     Game storage game = games[gameNumber];
 
+    require(moveNumber >= 1 && moveNumber <= 3, "Invalid move");
     require(game.creator != game.participant, "Game cannot be played alone");
     require(game.participantDidJoin, "Game has not started yet");
     require(!game.gameOver, "Game is already over");
@@ -126,8 +130,14 @@ contract RockPaperScissors {
     if (game.creatorMove != Move.DEFAULT && game.participantMove != Move.DEFAULT) {
       game.gameOver = true;
       game.winner = determineWinner(gameNumber);
-
-      payable(game.winner).transfer(game.bet * 2);
+      if (game.winner == address(0)) {
+        // Draw
+        payable(game.creator).transfer(game.bet);
+        payable(game.participant).transfer(game.bet);
+      } else {
+        // Winner
+        payable(game.winner).transfer(game.bet * 2);
+      }
       emit GameComplete(game.winner, gameNumber);
     }
   }
